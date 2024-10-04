@@ -246,7 +246,7 @@ You can test the backend API using tools like **Postman**, **cURL**, or any othe
 **Using cURL:**
 
 ```bash
-curl -X POST -F "document=@/Users/henryfowobaje/Downloads/musictest.pdf" http://127.0.0.1:5000/upload
+curl -X POST -F "document=@/Users/henryfowobaje/Downloads/musictest.pdf" http://127.0.0.1:5000/api/upload
 ```
 
 **Expected Response:**
@@ -265,7 +265,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "user_data_id": 1,
   "content_type": "flashcards",
   "num_items": 5
-}' http://127.0.0.1:5000/generate
+}' http://127.0.0.1:5000/api/generate
 ```
 
 **Expected Response:**
@@ -283,7 +283,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "user_data_id": 1,
   "content_type": "quizzes",
   "num_items": 5
-}' http://127.0.0.1:5000/generate
+}' http://127.0.0.1:5000/api/generate
 ```
 
 **Expected Response:**
@@ -319,7 +319,7 @@ If you're encountering issues, follow these steps to diagnose and resolve them:
 - **Check Read Permissions:**
 
   ```bash
-  chmod +r /Users/henryfowobaje/Downloads/musictest.pdf
+  chmod +r filepath.pdf
   ```
 
 ### **3. Review Server Logs**
@@ -332,7 +332,7 @@ If you're encountering issues, follow these steps to diagnose and resolve them:
 - **Run cURL with Verbosity:**
 
   ```bash
-  curl -v -X POST -F "document=@/Users/henryfowobaje/Downloads/musictest.pdf" http://127.0.0.1:5000/upload
+  curl -v -X POST -F "document=@filepath" http://127.0.0.1:5000/upload
   ```
 
 - **Analyze Output:**
@@ -412,62 +412,6 @@ def upload_file():
         return jsonify({'error': str(e)}), 500
 ```
 
-## Project Structure
-
-```
-backend/
-├── app.py
-├── requirements.txt
-├── config.py
-├── models.py
-├── utils.py
-├── database.db
-├── templates/
-│   └── index.html
-├── static/
-│   └── styles.css
-├── .env
-└── README.md
-```
-
-- **`app.py`**: Main Flask application with API routes.
-- **`requirements.txt`**: List of Python dependencies.
-- **`config.py`**: Configuration settings for Flask and environment variables.
-- **`models.py`**: Database models using SQLAlchemy.
-- **`utils.py`**: Utility functions for text extraction and OpenAI API interactions.
-- **`database.db`**: SQLite database file.
-- **`templates/`**: HTML templates for Flask routes.
-- **`static/`**: Static files (CSS, JavaScript) for Flask routes.
-- **`.env`**: Environment variables (should be kept secret and not committed to version control).
-- **`README.md`**: Project documentation.
-
-## Next Steps
-
-With the backend now capable of handling large documents through chunking, you can proceed with the following:
-
-1. **Frontend Development:**
-   - Develop the React frontend to interact with the backend API.
-   - Implement features like file upload interface, selection of study material type, and display of generated content.
-
-2. **User Authentication (Optional):**
-   - Implement user registration and login to personalize study materials further.
-
-3. **Enhance Error Handling:**
-   - Improve error messages and user feedback mechanisms on both frontend and backend.
-
-4. **Optimize OpenAI API Usage:**
-   - Implement caching mechanisms to reduce redundant API calls.
-   - Handle rate limits and implement retries with exponential backoff.
-
-5. **Deploy the Application:**
-   - Deploy the backend to a cloud platform (e.g., Heroku, AWS) for accessibility.
-   - Set up a production-ready frontend deployment.
-
-6. **Expand File Type Support:**
-   - Add support for additional file formats like Word documents (`.docx`).
-
-7. **Improve Text Processing:**
-   - Implement more sophisticated text preprocessing to enhance the quality of generated study materials.
 
 ## License
 
@@ -475,12 +419,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## Notes
-
-- **Security:** Ensure that sensitive information like the `.env` file is not committed to version control. Use `.gitignore` to exclude it.
-- **Scalability:** For production environments, consider using a more robust database system and implementing scalability features.
-- **API Limits:** Be mindful of the OpenAI API usage limits and monitor your usage to avoid unexpected costs.
-
----
-
-Feel free to reach out if you have any questions or need further assistance with your project!
