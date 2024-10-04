@@ -60,7 +60,7 @@ This project aims to develop an AI-driven learning tool that provides students w
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/studybuddy.git
+   git clone https://github.com/Henry2005-code/studybuddy.git
    cd backend
    ```
 
