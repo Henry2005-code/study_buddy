@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Environment Variables
+.env
+
+# Virtual Environments
+venv/
+env/
+
+# MacOS
+.DS_Store
+
+# Node.js
+node_modules/
