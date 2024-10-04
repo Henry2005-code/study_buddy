@@ -18,9 +18,6 @@
 - [Handling Large Documents](#handling-large-documents)
 - [Error Handling](#error-handling)
 - [Testing the Backend](#testing-the-backend)
-- [Troubleshooting](#troubleshooting)
-- [Project Structure](#project-structure)
-- [Next Steps](#next-steps)
 - [License](#license)
 
 ---
