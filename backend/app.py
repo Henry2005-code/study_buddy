@@ -49,29 +49,30 @@ def generate_content():
         content_type = data.get('content_type')
         num_items = data.get('num_items', 5)
 
-        user_data = UserData.query.get(user_data_id)
+        if not user_data_id or not content_type:
+            return jsonify({'error': 'Missing required parameters'}), 400
+
+        # Fetch the user data from the database
+        user_data = db.session.get(UserData, user_data_id)
         if not user_data:
             return jsonify({'error': 'User data not found'}), 404
 
+        text = user_data.content
+
         if content_type == 'flashcards':
-            generated_text = generate_flashcards(user_data.content, num_items)
+            generated_content = generate_flashcards(text, num_items)
         elif content_type == 'quizzes':
-            generated_text = generate_quizzes(user_data.content, num_items)
+            generated_content = generate_quizzes(text, num_items)
         else:
             return jsonify({'error': 'Invalid content type'}), 400
 
-        generated_content = GeneratedContent(
-            user_data_id=user_data.id,
-            content_type=content_type,
-            content=generated_text
-        )
-        db.session.add(generated_content)
-        db.session.commit()
+        if not generated_content:
+            return jsonify({'error': 'Failed to generate content'}), 500
 
-        return jsonify({'generated_content': generated_text}), 200
+        return jsonify({'generated_content': generated_content}), 200
     except Exception as e:
         app.logger.exception('An error occurred during content generation')
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'An internal error occurred'}), 500
 
 
 @app.route('/api/test', methods=['GET'])
