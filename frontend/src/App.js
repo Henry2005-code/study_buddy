@@ -14,7 +14,7 @@ function App() {
     <Router>
       <CssBaseline />
       <Navbar />
-      <Container maxWidth="md" style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+      <Container maxWidth="md" sx={{ marginTop: '2rem', marginBottom: '2rem' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/upload" element={<Upload />} />

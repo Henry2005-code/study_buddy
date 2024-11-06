@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <Box sx={{ bgcolor: 'primary.main', color: 'white', py: 2, mt: 'auto' }}>
       <Typography variant="body2" align="center">
-        &copy; 2024 Study Buddy
+        &copy; 2024 AI Learning Tool
       </Typography>
     </Box>
   );

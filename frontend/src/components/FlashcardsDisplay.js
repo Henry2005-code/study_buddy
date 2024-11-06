@@ -1,68 +1,72 @@
-// src/components/FlashcardsDisplay.js
+// src/components/FlashcardDisplay.js
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Grid } from '@mui/material';
+import { Card, CardContent, Typography, Box } from '@mui/material';
 import { styled } from '@mui/system';
 
-const FlipCard = styled('div')(({ flipped }) => ({
+const StyledCard = styled(Card)(({ flipped }) => ({
+  width: '100%',
+  height: '200px',
   perspective: '1000px',
   cursor: 'pointer',
-  '& .inner': {
-    position: 'relative',
-    width: '100%',
-    height: '200px',
-    textAlign: 'center',
-    transition: 'transform 0.6s',
-    transformStyle: 'preserve-3d',
-    transform: flipped ? 'rotateY(180deg)' : 'none',
-  },
-  '& .front, & .back': {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backfaceVisibility: 'hidden',
-    top: 0,
-    left: 0,
-  },
-  '& .back': {
-    transform: 'rotateY(180deg)',
-  },
+  position: 'relative',
 }));
 
-const FlashcardsDisplay = ({ flashcards }) => {
-  const [flippedCards, setFlippedCards] = useState({});
+const InnerCard = styled('div')(({ flipped }) => ({
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  textAlign: 'center',
+  transition: 'transform 0.6s',
+  transformStyle: 'preserve-3d',
+  transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+}));
 
-  const handleFlip = (index) => {
-    setFlippedCards((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+const CardFace = styled(CardContent)(({ front }) => ({
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  backfaceVisibility: 'hidden',
+  WebkitBackfaceVisibility: 'hidden',
+  backgroundColor: front ? '#ffffff' : '#f0f0f0',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '16px',
+  border: '1px solid #ddd',
+  borderRadius: '8px',
+}));
+
+const FlashcardDisplay = ({ flashcard }) => {
+  const [flipped, setFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setFlipped((prev) => !prev);
   };
 
   return (
-    <Grid container spacing={2}>
-      {flashcards.map((card, index) => (
-        <Grid item xs={12} sm={6} md={4} key={index}>
-          <FlipCard
-            onClick={() => handleFlip(index)}
-            flipped={flippedCards[index]}
+    <Box textAlign="center">
+      <StyledCard onClick={handleFlip}>
+        <InnerCard flipped={flipped}>
+          {/* Front Face */}
+          <CardFace front>
+            <Typography variant="h5">{flashcard.front}</Typography>
+          </CardFace>
+          {/* Back Face */}
+          <CardFace
+            front={false}
+            sx={{
+              transform: 'rotateY(180deg)', // Rotate back face to correct orientation
+            }}
           >
-            <div className="inner">
-              <Card className="front">
-                <CardContent>
-                  <Typography variant="h5">{card.front}</Typography>
-                </CardContent>
-              </Card>
-              <Card className="back">
-                <CardContent>
-                  <Typography variant="h6">{card.back}</Typography>
-                </CardContent>
-              </Card>
-            </div>
-          </FlipCard>
-        </Grid>
-      ))}
-    </Grid>
+            <Typography variant="h6">{flashcard.back}</Typography>
+          </CardFace>
+        </InnerCard>
+      </StyledCard>
+      <Typography variant="caption" display="block" mt={1}>
+        Click the card to {flipped ? 'hide' : 'show'} the answer.
+      </Typography>
+    </Box>
   );
 };
 
-export default FlashcardsDisplay;
+export default FlashcardDisplay;

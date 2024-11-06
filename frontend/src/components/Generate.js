@@ -1,7 +1,6 @@
 // src/components/Generate.js
 import React, { useState } from 'react';
 import axios from 'axios';
-
 import {
   Typography,
   Button,
@@ -41,12 +40,20 @@ const Generate = () => {
   }
 
   const handleGenerate = () => {
+    // Validate numItems
+    const parsedNumItems = parseInt(numItems, 10);
+    if (isNaN(parsedNumItems) || parsedNumItems < 1 || parsedNumItems > 20) {
+      setErrorMsg('Please enter a number between 1 and 20.');
+      setOpenSnackbar(true);
+      return;
+    }
+
     setGenerating(true);
     axios
       .post('/api/generate', {
         user_data_id: userDataId,
         content_type: contentType,
-        num_items: parseInt(numItems),
+        num_items: parsedNumItems, // Ensure it's an integer
       })
       .then((response) => {
         console.log('Generate response:', response.data);
